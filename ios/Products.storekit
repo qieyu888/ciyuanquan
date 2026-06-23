@@ -1,0 +1,122 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "Products",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "6",
+      "familyShareable" : false,
+      "internalID" : "CYC001",
+      "localizations" : [
+        {
+          "description" : "购买 60 积分，可用于发布首页动态",
+          "displayName" : "60 积分",
+          "locale" : "zh_Hans"
+        }
+      ],
+      "productID" : "com.ciyuan6",
+      "referenceName" : "60 Credits",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "18",
+      "familyShareable" : false,
+      "internalID" : "CYC002",
+      "localizations" : [
+        {
+          "description" : "购买 180 积分，可用于发布首页动态",
+          "displayName" : "180 积分",
+          "locale" : "zh_Hans"
+        }
+      ],
+      "productID" : "com.ciyuan18",
+      "referenceName" : "180 Credits",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "28",
+      "familyShareable" : false,
+      "internalID" : "CYC003",
+      "localizations" : [
+        {
+          "description" : "购买 280 积分，可用于发布首页动态",
+          "displayName" : "280 积分",
+          "locale" : "zh_Hans"
+        }
+      ],
+      "productID" : "com.ciyuan28",
+      "referenceName" : "280 Credits",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "zh_Hans",
+    "_storefront" : "CHN",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

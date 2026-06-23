@@ -7,8 +7,10 @@ import '../utils/constants.dart';
 import '../widgets/post_card.dart';
 import '../services/block_service.dart';
 import '../services/user_service.dart';
+import '../services/credit_service.dart';
 import 'post_detail_screen.dart';
 import 'user_profile_screen.dart';
+import 'credit_store_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<Post> posts;
   late ScrollController _scrollController;
   final BlockService _blockService = BlockService();
+  final CreditService _creditService = CreditService();
   final ImagePicker _imagePicker = ImagePicker();
   final TextEditingController _contentController = TextEditingController();
   String? _selectedImagePath;
@@ -31,8 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     posts = List.from(mockPosts);
     _scrollController = ScrollController();
-    // 监听拉黑和屏蔽状态变化
     _blockService.addListener(_onBlockServiceChanged);
+    _creditService.addListener(_onCreditChanged);
+  }
+
+  void _onCreditChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -40,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollController.dispose();
     _contentController.dispose();
     _blockService.removeListener(_onBlockServiceChanged);
+    _creditService.removeListener(_onCreditChanged);
     super.dispose();
   }
 
@@ -107,14 +115,49 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _showInsufficientCreditsDialog() {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+        ),
+        title: const Text('积分不足'),
+        content: Text(
+          '发布动态需要 ${CreditService.postCost} 积分，当前剩余 ${_creditService.credits} 积分。\n请前往充值后再发布。',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('取消'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CreditStoreScreen(),
+                ),
+              );
+            },
+            child: const Text('去充值'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showPublishDialog() {
     String dialogSelectedTag = _selectedTag;
     String? dialogSelectedImagePath = _selectedImagePath;
 
     showDialog(
       context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => Dialog(
+      builder: (dialogContext) => ListenableBuilder(
+        listenable: _creditService,
+        builder: (context, _) => StatefulBuilder(
+          builder: (context, setDialogState) => Dialog(
           backgroundColor: Colors.transparent,
           insetPadding: const EdgeInsets.all(AppSpacing.lg),
           child: Container(
@@ -152,12 +195,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '发布动态',
-                        style: AppTextStyles.headline3.copyWith(
-                          color: AppColors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '发布动态',
+                            style: AppTextStyles.headline3.copyWith(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '剩余 ${_creditService.credits} 积分 · 消耗 ${CreditService.postCost} 积分',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: Colors.white.withOpacity(0.85),
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                       GestureDetector(
                         onTap: () {
@@ -471,11 +527,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(width: AppSpacing.lg),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             if (_contentController.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('请输入动态内容')),
                               );
+                              return;
+                            }
+
+                            if (!_creditService.canSpend(CreditService.postCost)) {
+                              Navigator.pop(context);
+                              _contentController.clear();
+                              _selectedImagePath = null;
+                              _selectedTag = '绘画';
+                              _showInsufficientCreditsDialog();
+                              return;
+                            }
+
+                            final navigator = Navigator.of(context);
+                            final messenger = ScaffoldMessenger.of(context);
+                            final spent = await _creditService.spendCredits(
+                              CreditService.postCost,
+                            );
+                            if (!mounted) return;
+                            if (!spent) {
+                              navigator.pop();
+                              _showInsufficientCreditsDialog();
                               return;
                             }
 
@@ -505,15 +582,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               posts.insert(0, newPost);
                             });
 
-                            Navigator.pop(context);
+                            navigator.pop();
                             _contentController.clear();
                             _selectedImagePath = null;
                             _selectedTag = '绘画';
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('发布成功'),
-                                duration: Duration(seconds: 2),
+                            messenger.showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  '发布成功，已消耗 ${CreditService.postCost} 积分',
+                                ),
+                                duration: const Duration(seconds: 2),
                               ),
                             );
                           },
@@ -558,6 +637,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

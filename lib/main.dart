@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'utils/constants.dart';
+import 'services/credit_service.dart';
+import 'services/iap_service.dart';
 import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/discover_screen.dart';
 import 'screens/anime_screen.dart';
 import 'screens/profile_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CreditService().load();
+  await IapService().initialize();
   runApp(const MyApp());
 }
 

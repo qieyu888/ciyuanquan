@@ -5,9 +5,11 @@ import '../widgets/pink_button.dart';
 import '../widgets/post_card.dart';
 import '../models/models.dart';
 import '../services/user_service.dart';
+import '../services/credit_service.dart';
 import 'edit_profile_screen.dart';
 import 'post_detail_screen.dart';
 import 'settings_screen.dart';
+import 'credit_store_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late UserService _userService;
+  final CreditService _creditService = CreditService();
   int likes = 128;
   int collections = 45;
 
@@ -30,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     _userService = UserService();
+    _creditService.addListener(_onCreditChanged);
     
     // 初始化当前用户
     currentUser = User(
@@ -66,6 +70,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
         isLiked: false,
       ),
     ];
+  }
+
+  @override
+  void dispose() {
+    _creditService.removeListener(_onCreditChanged);
+    super.dispose();
+  }
+
+  void _onCreditChanged() {
+    if (mounted) setState(() {});
+  }
+
+  void _openCreditStore() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CreditStoreScreen(),
+      ),
+    );
   }
 
   void _toggleLike(int postId) {
@@ -232,6 +255,92 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     isFullWidth: true,
                   ),
                 ],
+              ),
+            ),
+            // 积分充值
+            GestureDetector(
+              onTap: _openCreditStore,
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  0,
+                  AppSpacing.lg,
+                  AppSpacing.lg,
+                ),
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primary,
+                      AppColors.primary.withValues(alpha: 0.85),
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.25),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.monetization_on,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.lg),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '我的积分',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: Colors.white.withValues(alpha: 0.9),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${_creditService.credits}',
+                            style: AppTextStyles.headline2.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.lg,
+                        vertical: AppSpacing.sm,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(AppRadius.circle),
+                      ),
+                      child: Text(
+                        '充值',
+                        style: AppTextStyles.labelMedium.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             // 统计信息

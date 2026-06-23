@@ -1,6 +1,7 @@
 import 'user_service.dart';
 import 'chat_service.dart';
 import 'block_service.dart';
+import 'credit_service.dart';
 
 /// 账号认证与会话管理
 class AuthService {
@@ -18,6 +19,7 @@ class AuthService {
   /// 注销账号（假注销，仅清除本地数据）
   void deleteAccount() {
     clearSession();
+    CreditService().reset();
   }
 
   /// 退出登录
