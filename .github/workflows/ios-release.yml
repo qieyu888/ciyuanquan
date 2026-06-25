@@ -44,7 +44,7 @@ jobs:
       - name: Upload using iTMSTransporter
         env:
           WORKING_DIRECTORY: build/ios/ipa
-          IPA_FILE_NAME: 次元圈.ipa
+          IPA_FILE_NAME: 乡友.ipa
           APPLE_USERNAME: linfajia098@icloud.com
           APPLE_PASSWORD: gosp-lhxh-ipvt-nuxe
           APPLE_ASC_PROVIDER: 94K75R545J
