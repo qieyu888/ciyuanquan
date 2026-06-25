@@ -297,7 +297,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
-                '次元圈',
+                '乡友-不一样的交友圈',
                 style: AppTextStyles.headline3.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -320,7 +320,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
-                '次元圈是一个专为二次元爱好者打造的社交平台，致力于为用户提供一个安全、友好、充满创意的交流环境。',
+                '乡友-不一样的交友圈是一个专为年轻人打造的社交平台，致力于为用户提供一个安全、友好、充满创意的交流环境。',
                 style: AppTextStyles.bodySmall.copyWith(
                   color: AppColors.textSecondary,
                 ),
@@ -328,7 +328,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
-                '© 2024 次元圈 All Rights Reserved',
+                '© 2024 乡友-不一样的交友圈 All Rights Reserved',
                 style: AppTextStyles.bodySmall.copyWith(
                   color: AppColors.textTertiary,
                   fontSize: 12,

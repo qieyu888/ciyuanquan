@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 30),
             // App name
             Text(
-              '次元圈',
+              '乡友-不一样的交友圈',
               style: AppTextStyles.headline1.copyWith(
                 color: AppColors.primary,
                 fontWeight: FontWeight.bold,

@@ -11,7 +11,7 @@ enum AgreementType { privacy, user }
 // ─────────────────────────────────────────────
 const _privacyContent = [
   _Section('一、信息收集', '''
-次元圈（以下简称"本应用"）在您使用服务过程中，可能收集以下信息：
+乡友-不一样的交友圈（以下简称"本应用"）在您使用服务过程中，可能收集以下信息：
 
 • 注册信息：用户名、密码（加密存储）、头像等基本资料。
 • 设备信息：设备型号、操作系统版本、唯一设备标识符，用于保障账号安全。
@@ -63,7 +63,7 @@ const _privacyContent = [
 
 const _userContent = [
   _Section('一、服务说明', '''
-次元圈是一款面向二次元文化爱好者的社区应用，为用户提供内容分享、手办交流、发现同好等功能。使用本服务前，请仔细阅读并同意本用户协议。'''),
+乡友-不一样的交友圈是一款面向年轻人的社区应用，为用户提供内容分享、发现同好、畅快交流等功能。使用本服务前，请仔细阅读并同意本用户协议。'''),
 
   _Section('二、账号注册与使用', '''
 • 您需提供真实、准确的注册信息，并对账号的所有操作行为负责。
@@ -174,7 +174,7 @@ class AgreementScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '次元圈 · $_title',
+                        '乡友-不一样的交友圈 · $_title',
                         style: AppTextStyles.labelLarge
                             .copyWith(color: Colors.white),
                       ),

@@ -22,7 +22,7 @@ const _pages = [
   _OnboardingPage(
     emoji: '🌸',
     title: '发现同好',
-    subtitle: '在次元圈找到和你\n热爱同一个世界的人',
+    subtitle: '在乡友找到和你\n热爱同一个世界的人',
     gradientColors: [Color(0xFFFFC0D9), Color(0xFFEC7BA8)],
   ),
   _OnboardingPage(
@@ -33,7 +33,7 @@ const _pages = [
   ),
   _OnboardingPage(
     emoji: '✨',
-    title: '加入次元圈',
+    title: '加入乡友',
     subtitle: '分享热爱，遇见同好\n你的二次元之旅从这里开始',
     gradientColors: [Color(0xFF80DEEA), Color(0xFF00BCD4)],
   ),

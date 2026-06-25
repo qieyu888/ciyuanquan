@@ -116,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen>
               child: Column(
                 children: [
                   Text(
-                    '次元圈',
+                    '乡友-不一样的交友圈',
                     style: AppTextStyles.headline1.copyWith(
                       color: AppColors.primary,
                       fontWeight: FontWeight.bold,
